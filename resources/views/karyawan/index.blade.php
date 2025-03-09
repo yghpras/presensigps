@@ -287,8 +287,11 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Edit Data Karyawan</h5>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body" id="loadeditform"></div>
+        <div class="modal-body" id="loadeditform">
+          
+        </div>
       </div>
     </div>
 </div> 
@@ -303,9 +306,21 @@ $(function() {
         $("#modal_inputkaryawan").modal("show");
     });
 
-    $(document).on("click", ".edit", function() {
-    $("#modal_editkaryawan").modal("show");
-
+    $(".edit").click(function(){
+        var nik = $(this).attr('nik');
+        $.ajax({
+            type:"POST",
+            url: '/karyawan/edit',
+            cache: false,
+            data: {
+                _token:"{{ csrf_token() }}",
+                nik: nik
+            },
+            success:function(respond){
+                $("#loadeditform").html(respond);
+            }
+        });
+        $("#modal_editkaryawan").modal("show");
     });
 
 
